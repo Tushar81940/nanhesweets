@@ -1,11 +1,11 @@
 /**
  * ═══════════════════════════════════════════════════════════
- *  NANHE PRODUCT CATALOG
+ * NANHE PRODUCT CATALOG
  *
- *  To add a product:  copy any block below, give it a unique id,
+ * To add a product:  copy any block below, give it a unique id,
  *                     and fill in the fields.
  *
- *  image:  Put your product image in /public/images/ and set
+ * image:  Put your product image in /public/images/ and set
  *          the path to  "/images/your-file.jpg"
  *          Until you have real images, Unsplash URLs are used
  *          as tasteful placeholders.
@@ -18,7 +18,6 @@ export const CATEGORIES = {
   DAIRY:  "dairy",
   SNACKS: "snacks",
 };
-
 // ── Category meta (used for cards + pages) ────────────────
 export const categoryMeta = [
   {
