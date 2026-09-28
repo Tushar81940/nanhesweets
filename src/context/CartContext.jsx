@@ -2,12 +2,17 @@ import { createContext, useContext, useReducer, useEffect, useCallback } from "r
 import { calculateSubtotal } from "../utils/cart";
 
 // ── Storage key ───────────────────────────────────────────
-const STORAGE_KEY = "nanhe_cart";
+const STORAGE_KEY = "nanhe_cart_v2";  // bumped to clear old variant-less cache
+
+// ── Cart key helper ───────────────────────────────────────
+// Products with variants get a unique key per variant so 250g and 500g
+// of the same sweet sit as separate line items in the cart.
+export function cartKey(productId, variantLabel) {
+  return variantLabel ? `${productId}::${variantLabel}` : productId;
+}
 
 // ── Initial state ─────────────────────────────────────────
-const initialState = {
-  items: [],   // [{ id, name, category, image, price, unit, quantity }]
-};
+const initialState = { items: [] };
 
 // ── Load from localStorage ────────────────────────────────
 function loadCart() {
@@ -17,9 +22,7 @@ function loadCart() {
       const parsed = JSON.parse(raw);
       if (Array.isArray(parsed.items)) return parsed;
     }
-  } catch {
-    // corrupted storage — start fresh
-  }
+  } catch { /* corrupted — start fresh */ }
   return initialState;
 }
 
@@ -28,14 +31,13 @@ function cartReducer(state, action) {
   switch (action.type) {
 
     case "ADD_TO_CART": {
-      const existing = state.items.find((i) => i.id === action.product.id);
+      const key = action.key;
+      const existing = state.items.find((i) => i.key === key);
       if (existing) {
         return {
           ...state,
           items: state.items.map((i) =>
-            i.id === action.product.id
-              ? { ...i, quantity: i.quantity + (action.qty ?? 1) }
-              : i
+            i.key === key ? { ...i, quantity: i.quantity + (action.qty ?? 1) } : i
           ),
         };
       }
@@ -44,29 +46,28 @@ function cartReducer(state, action) {
         items: [
           ...state.items,
           {
-            id:       action.product.id,
-            name:     action.product.name,
-            category: action.product.category,
-            image:    action.product.image,
-            price:    action.product.price,
-            unit:     action.product.unit,
-            quantity: action.qty ?? 1,
+            key:          key,                     // unique cart key
+            id:           action.product.id,       // original product id
+            name:         action.product.name,
+            category:     action.product.category,
+            image:        action.product.image,
+            price:        action.price,            // already-calculated variant price
+            unit:         action.variantLabel ?? action.product.unit,
+            variantLabel: action.variantLabel ?? null,
+            quantity:     action.qty ?? 1,
           },
         ],
       };
     }
 
     case "REMOVE_FROM_CART":
-      return {
-        ...state,
-        items: state.items.filter((i) => i.id !== action.id),
-      };
+      return { ...state, items: state.items.filter((i) => i.key !== action.key) };
 
     case "INCREASE_QUANTITY":
       return {
         ...state,
         items: state.items.map((i) =>
-          i.id === action.id ? { ...i, quantity: i.quantity + 1 } : i
+          i.key === action.key ? { ...i, quantity: i.quantity + 1 } : i
         ),
       };
 
@@ -74,9 +75,7 @@ function cartReducer(state, action) {
       return {
         ...state,
         items: state.items
-          .map((i) =>
-            i.id === action.id ? { ...i, quantity: i.quantity - 1 } : i
-          )
+          .map((i) => i.key === action.key ? { ...i, quantity: i.quantity - 1 } : i)
           .filter((i) => i.quantity > 0),
       };
 
@@ -85,15 +84,12 @@ function cartReducer(state, action) {
 
     case "SET_QUANTITY":
       if (action.quantity <= 0) {
-        return {
-          ...state,
-          items: state.items.filter((i) => i.id !== action.id),
-        };
+        return { ...state, items: state.items.filter((i) => i.key !== action.key) };
       }
       return {
         ...state,
         items: state.items.map((i) =>
-          i.id === action.id ? { ...i, quantity: action.quantity } : i
+          i.key === action.key ? { ...i, quantity: action.quantity } : i
         ),
       };
 
@@ -109,62 +105,50 @@ const CartContext = createContext(null);
 export function CartProvider({ children }) {
   const [state, dispatch] = useReducer(cartReducer, undefined, loadCart);
 
-  // Persist to localStorage on every change
   useEffect(() => {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    } catch {
-      // storage full or unavailable — fail silently
-    }
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+    catch { /* storage full */ }
   }, [state]);
 
   // ── Actions ───────────────────────────────────────────
-  const addToCart = useCallback((product, qty = 1) => {
-    dispatch({ type: "ADD_TO_CART", product, qty });
+  // addToCart now accepts optional variantLabel + variantPrice
+  const addToCart = useCallback((product, qty = 1, variantLabel = null, variantPrice = null) => {
+    const key   = cartKey(product.id, variantLabel);
+    const price = variantPrice ?? product.price;
+    dispatch({ type: "ADD_TO_CART", product, qty, key, variantLabel, price });
   }, []);
 
-  const removeFromCart = useCallback((id) => {
-    dispatch({ type: "REMOVE_FROM_CART", id });
-  }, []);
+  const removeFromCart   = useCallback((key) => dispatch({ type: "REMOVE_FROM_CART",   key }),   []);
+  const increaseQuantity = useCallback((key) => dispatch({ type: "INCREASE_QUANTITY",  key }),   []);
+  const decreaseQuantity = useCallback((key) => dispatch({ type: "DECREASE_QUANTITY",  key }),   []);
+  const clearCart        = useCallback(()    => dispatch({ type: "CLEAR_CART"               }),  []);
 
-  const increaseQuantity = useCallback((id) => {
-    dispatch({ type: "INCREASE_QUANTITY", id });
-  }, []);
-
-  const decreaseQuantity = useCallback((id) => {
-    dispatch({ type: "DECREASE_QUANTITY", id });
-  }, []);
-
-  const setQuantity = useCallback((id, quantity) => {
-    dispatch({ type: "SET_QUANTITY", id, quantity });
-  }, []);
-
-  const clearCart = useCallback(() => {
-    dispatch({ type: "CLEAR_CART" });
+  const setQuantity = useCallback((key, quantity) => {
+    dispatch({ type: "SET_QUANTITY", key, quantity });
   }, []);
 
   // ── Computed ──────────────────────────────────────────
-  const itemCount  = state.items.reduce((sum, i) => sum + i.quantity, 0);
-  const subtotal   = calculateSubtotal(state.items);
-  const isInCart   = useCallback((id) => state.items.some((i) => i.id === id), [state.items]);
-  const getItem    = useCallback((id) => state.items.find((i) => i.id === id) || null, [state.items]);
+  const itemCount = state.items.reduce((sum, i) => sum + i.quantity, 0);
+  const subtotal  = calculateSubtotal(state.items);
+
+  // isInCart / getItem now work by cart key
+  const isInCart = useCallback((key) => state.items.some((i) => i.key === key),              [state.items]);
+  const getItem  = useCallback((key) => state.items.find((i) => i.key === key) ?? null,      [state.items]);
 
   return (
-    <CartContext.Provider
-      value={{
-        items: state.items,
-        itemCount,
-        subtotal,
-        addToCart,
-        removeFromCart,
-        increaseQuantity,
-        decreaseQuantity,
-        setQuantity,
-        clearCart,
-        isInCart,
-        getItem,
-      }}
-    >
+    <CartContext.Provider value={{
+      items: state.items,
+      itemCount,
+      subtotal,
+      addToCart,
+      removeFromCart,
+      increaseQuantity,
+      decreaseQuantity,
+      setQuantity,
+      clearCart,
+      isInCart,
+      getItem,
+    }}>
       {children}
     </CartContext.Provider>
   );

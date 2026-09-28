@@ -22,7 +22,7 @@ export function buildOrderMessage(cartItems, customer, subtotal) {
   const lines = cartItems
     .map(
       (item, index) =>
-        `${index + 1}. ${item.name}\n   ${item.unit} × ${item.quantity} = ${formatPrice(item.price * item.quantity)}`
+        `${index + 1}. ${item.name}${item.variantLabel ? ` (${item.variantLabel})` : ""}\n   ${item.unit} × ${item.quantity} = ${formatPrice(item.price * item.quantity)}`
     )
     .join("\n\n");
 

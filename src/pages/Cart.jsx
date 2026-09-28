@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
-import { ShoppingBag, ArrowRight, Trash2, ArrowLeft } from "lucide-react";
+import { ShoppingBag, ArrowRight, Trash2, ArrowLeft, AlertCircle } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import {
   calculateDeliveryCharge,
   calculateOrderTotal,
   amountToFreeDelivery,
+  meetsMinimumOrder,
+  amountToMinimumOrder,
   formatPrice,
 } from "../utils/cart";
 import { storeConfig } from "../config/store";
@@ -15,9 +17,11 @@ import WhatsAppButton from "../components/WhatsAppButton";
 export default function Cart() {
   const { items, subtotal, itemCount, clearCart } = useCart();
 
-  const delivery = calculateDeliveryCharge(subtotal);
-  const total    = calculateOrderTotal(subtotal);
-  const gap      = amountToFreeDelivery(subtotal);
+  const delivery   = calculateDeliveryCharge(subtotal);
+  const total      = calculateOrderTotal(subtotal);
+  const gap        = amountToFreeDelivery(subtotal);
+  const minMet     = meetsMinimumOrder(subtotal);
+  const minGap     = amountToMinimumOrder(subtotal);
 
   // ── Empty cart ────────────────────────────────────────
   if (items.length === 0) {
@@ -114,6 +118,18 @@ export default function Cart() {
             <div className="mt-4">
               <DeliveryBanner />
             </div>
+
+            {/* Minimum order banner */}
+            {!minMet && (
+              <div className="mt-3 flex items-start gap-2.5 bg-[#FFF3F3] border border-red-200 rounded-xl px-4 py-3">
+                <AlertCircle size={16} className="text-red-500 flex-shrink-0 mt-0.5" strokeWidth={2} />
+                <p className="text-sm font-body text-red-700">
+                  Minimum order is{" "}
+                  <strong>₹{storeConfig.minimumOrder}</strong>. Add{" "}
+                  <strong>{formatPrice(minGap)}</strong> more to proceed.
+                </p>
+              </div>
+            )}
           </div>
 
           {/* ── Order summary ── */}
@@ -166,32 +182,44 @@ export default function Cart() {
                 </div>
 
                 {/* Proceed to checkout */}
-                <Link
-                  to="/checkout"
-                  className="mt-2 flex items-center justify-center gap-2 py-3.5 px-5 rounded-xl
-                    bg-[#5C2D0E] text-white text-sm font-semibold font-body
-                    hover:bg-[#3D1A0A] active:scale-[0.98] transition-all"
-                >
-                  Proceed to Order
-                  <ArrowRight size={15} strokeWidth={2.5} />
-                </Link>
+                {minMet ? (
+                  <Link
+                    to="/checkout"
+                    className="mt-2 flex items-center justify-center gap-2 py-3.5 px-5 rounded-xl
+                      bg-[#5C2D0E] text-white text-sm font-semibold font-body
+                      hover:bg-[#3D1A0A] active:scale-[0.98] transition-all"
+                  >
+                    Proceed to Order
+                    <ArrowRight size={15} strokeWidth={2.5} />
+                  </Link>
+                ) : (
+                  <div className="mt-2 flex items-center justify-center gap-2 py-3.5 px-5 rounded-xl
+                    bg-[#D4A96A]/40 text-[#9A6C4A] text-sm font-semibold font-body cursor-not-allowed border border-[#D4A96A]">
+                    Add {formatPrice(minGap)} more to proceed
+                  </div>
+                )}
 
                 {/* WhatsApp quick order */}
-                <WhatsAppButton
-                  label="Quick Order on WhatsApp"
-                  size="sm"
-                  fullWidth
-                />
+                {minMet && (
+                  <WhatsAppButton
+                    label="Quick Order on WhatsApp"
+                    size="sm"
+                    fullWidth
+                  />
+                )}
 
                 <p className="text-[#9A6C4A] text-[11px] font-body text-center leading-relaxed">
-                  Fill delivery details on the next page to send your complete order to WhatsApp.
+                  {minMet
+                    ? "Fill delivery details on the next page to send your complete order to WhatsApp."
+                    : `Minimum order value is ₹${storeConfig.minimumOrder}.`}
                 </p>
               </div>
             </div>
 
             {/* Delivery info card */}
             <div className="bg-[#FAF6F0] rounded-2xl border border-[#EDE4D3] px-5 py-4 text-xs font-body text-[#7A3B15] space-y-1.5">
-              <p className="font-semibold text-[#5C2D0E] text-sm mb-2">Delivery Policy</p>
+              <p className="font-semibold text-[#5C2D0E] text-sm mb-2">Order Policy</p>
+              <p>✓ Minimum order value: <strong>₹{storeConfig.minimumOrder}</strong></p>
               <p>✓ Orders above ₹{storeConfig.freeDeliveryThreshold} → <strong>FREE delivery</strong></p>
               <p>✓ Orders below ₹{storeConfig.freeDeliveryThreshold} → ₹{storeConfig.deliveryCharge} delivery charge</p>
               <p>✓ Orders placed before 2 PM delivered same day</p>

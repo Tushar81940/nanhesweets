@@ -4,7 +4,8 @@ import { formatPrice } from "../utils/cart";
 import QuantitySelector from "./QuantitySelector";
 
 /**
- * CartItem — single row in the cart page
+ * CartItem — single row in the cart page.
+ * item.key is the unique cart key (productId::variantLabel for sweets).
  */
 export default function CartItem({ item }) {
   const { removeFromCart, increaseQuantity, decreaseQuantity } = useCart();
@@ -35,15 +36,24 @@ export default function CartItem({ item }) {
             <h4 className="font-display font-semibold text-[#3D1A0A] text-base leading-snug">
               {item.name}
             </h4>
-            <p className="text-[#9A6C4A] text-xs font-body mt-0.5">
-              {formatPrice(item.price)} / {item.unit}
-            </p>
+            {/* Variant tag */}
+            <div className="flex items-center gap-2 mt-0.5 flex-wrap">
+              {item.variantLabel && (
+                <span className="inline-block bg-[#FAF0E0] border border-[#D4A96A] text-[#5C2D0E]
+                  text-[10px] font-semibold px-2 py-0.5 rounded-full font-body">
+                  {item.variantLabel}
+                </span>
+              )}
+              <p className="text-[#9A6C4A] text-xs font-body">
+                {formatPrice(item.price)} / {item.unit}
+              </p>
+            </div>
           </div>
 
           {/* Remove */}
           <button
-            onClick={() => removeFromCart(item.id)}
-            aria-label={`Remove ${item.name} from cart`}
+            onClick={() => removeFromCart(item.key)}
+            aria-label={`Remove ${item.name} ${item.variantLabel ?? ""} from cart`}
             className="p-1.5 rounded-lg text-[#9A6C4A] hover:text-red-500 hover:bg-red-50 transition-colors flex-shrink-0"
           >
             <Trash2 size={15} strokeWidth={2} />
@@ -55,8 +65,8 @@ export default function CartItem({ item }) {
           <QuantitySelector
             size="sm"
             quantity={item.quantity}
-            onIncrease={() => increaseQuantity(item.id)}
-            onDecrease={() => decreaseQuantity(item.id)}
+            onIncrease={() => increaseQuantity(item.key)}
+            onDecrease={() => decreaseQuantity(item.key)}
             min={0}
           />
           <span className="font-display font-bold text-[#3D1A0A] text-base tabular-nums">

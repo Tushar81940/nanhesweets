@@ -2,14 +2,17 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   ArrowLeft, User, Phone, MapPin, FileText,
-  CheckCircle, ShoppingBag, ExternalLink
+  CheckCircle, ShoppingBag, ExternalLink, AlertCircle
 } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import {
   calculateDeliveryCharge,
   calculateOrderTotal,
+  meetsMinimumOrder,
+  amountToMinimumOrder,
   formatPrice,
 } from "../utils/cart";
+import { storeConfig } from "../config/store";
 import { openWhatsAppOrder } from "../utils/whatsapp";
 import CartItem from "../components/CartItem";
 import DeliveryBanner from "../components/DeliveryBanner";
@@ -77,6 +80,8 @@ export default function Checkout() {
 
   const delivery = calculateDeliveryCharge(subtotal);
   const total    = calculateOrderTotal(subtotal);
+  const minMet   = meetsMinimumOrder(subtotal);
+  const minGap   = amountToMinimumOrder(subtotal);
 
   // Redirect if cart is empty
   if (items.length === 0 && !submitted) {
@@ -359,15 +364,30 @@ export default function Checkout() {
               {/* Delivery banner */}
               <DeliveryBanner />
 
+              {/* Minimum order alert */}
+              {!minMet && (
+                <div className="flex items-start gap-2.5 bg-[#FFF3F3] border border-red-200 rounded-xl px-4 py-3">
+                  <AlertCircle size={15} className="text-red-500 flex-shrink-0 mt-0.5" strokeWidth={2} />
+                  <p className="text-xs font-body text-red-700">
+                    Minimum order is <strong>₹{storeConfig.minimumOrder}</strong>. Please add{" "}
+                    <strong>{formatPrice(minGap)}</strong> more.{" "}
+                    <Link to="/cart" className="underline font-semibold">Go back to cart</Link>
+                  </p>
+                </div>
+              )}
+
               {/* Place order button */}
               <button
                 type="submit"
-                className="flex items-center justify-center gap-2 w-full py-4 px-5 rounded-xl
-                  bg-[#25D366] text-white text-base font-bold font-body
-                  hover:bg-[#128C7E] active:scale-[0.98] transition-all shadow-lg"
+                disabled={!minMet}
+                className={`flex items-center justify-center gap-2 w-full py-4 px-5 rounded-xl
+                  text-base font-bold font-body transition-all shadow-lg
+                  ${minMet
+                    ? "bg-[#25D366] text-white hover:bg-[#128C7E] active:scale-[0.98]"
+                    : "bg-[#D4A96A]/40 text-[#9A6C4A] cursor-not-allowed border border-[#D4A96A]"}`}
               >
                 <ExternalLink size={18} strokeWidth={2} />
-                Place Order on WhatsApp
+                {minMet ? "Place Order on WhatsApp" : `Add ${formatPrice(minGap)} more to order`}
               </button>
 
               <p className="text-[#9A6C4A] text-[11px] font-body text-center leading-relaxed px-1">
