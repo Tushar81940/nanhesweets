@@ -26,7 +26,7 @@ const testimonials = [
   },
   {
     name:   "Rahul Verma",
-    text:   "Ordered Kaju Katli for Diwali and it was the freshest I've ever tasted. Will order again!",
+    text:   "Ordered Son Papdi for Diwali and it was the freshest I've ever tasted. Will order again!",
     rating: 5,
     city:   "Regular Customer",
   },
