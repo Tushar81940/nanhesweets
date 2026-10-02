@@ -95,10 +95,10 @@ export default function Products() {
             ))}
           </div>
 
-          {/* Search + sort row */}
-          <div className="flex gap-3 flex-wrap sm:flex-nowrap">
-            {/* Search */}
-            <div className="relative flex-1 min-w-0">
+          {/* Search + sort row — search full-width on mobile */}
+          <div className="flex flex-col gap-2 sm:flex-row sm:gap-3">
+            {/* Search — always full width on mobile */}
+            <div className="relative w-full sm:flex-1">
               <Search
                 size={16}
                 strokeWidth={2}
@@ -110,47 +110,50 @@ export default function Products() {
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search products…"
                 aria-label="Search products"
-                className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-[#EDE4D3] bg-white
-                  text-[#3D1A0A] text-sm font-body placeholder-[#C4A882]
-                  focus:outline-none focus:border-[#C9922A] focus:ring-1 focus:ring-[#C9922A]/30
+                className="w-full pl-9 pr-4 py-3 rounded-xl border-2 border-[#D4A96A] bg-white
+                  text-[#3D1A0A] text-base font-body placeholder-[#B8956A]
+                  focus:outline-none focus:border-[#C9922A] focus:ring-2 focus:ring-[#C9922A]/20
                   transition-colors"
               />
             </div>
 
-            {/* Sort */}
-            <div className="relative flex-shrink-0">
-              <SlidersHorizontal
-                size={15}
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-[#C9922A] pointer-events-none"
-              />
-              <select
-                value={sort}
-                onChange={(e) => setSort(e.target.value)}
-                aria-label="Sort products"
-                className="pl-8 pr-8 py-2.5 rounded-xl border border-[#EDE4D3] bg-white
-                  text-[#3D1A0A] text-sm font-body
-                  focus:outline-none focus:border-[#C9922A]
-                  appearance-none cursor-pointer transition-colors"
-              >
-                {SORT_OPTIONS.map((o) => (
-                  <option key={o.value} value={o.value}>{o.label}</option>
-                ))}
-              </select>
-            </div>
+            {/* Sort + Clear — side by side on mobile too */}
+            <div className="flex gap-2 sm:gap-3 sm:flex-shrink-0">
+              {/* Sort */}
+              <div className="relative flex-1 sm:flex-shrink-0 sm:flex-auto">
+                <SlidersHorizontal
+                  size={15}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-[#C9922A] pointer-events-none"
+                />
+                <select
+                  value={sort}
+                  onChange={(e) => setSort(e.target.value)}
+                  aria-label="Sort products"
+                  className="w-full pl-8 pr-8 py-3 rounded-xl border-2 border-[#D4A96A] bg-white
+                    text-[#3D1A0A] text-sm font-body
+                    focus:outline-none focus:border-[#C9922A]
+                    appearance-none cursor-pointer transition-colors"
+                >
+                  {SORT_OPTIONS.map((o) => (
+                    <option key={o.value} value={o.value}>{o.label}</option>
+                  ))}
+                </select>
+              </div>
 
-            {/* Clear filters */}
-            {hasFilters && (
-              <button
-                onClick={clearFilters}
-                className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl border border-[#EDE4D3]
-                  bg-white text-[#9A6C4A] text-sm font-body hover:text-red-500 hover:border-red-200
-                  transition-colors flex-shrink-0"
-                aria-label="Clear all filters"
-              >
-                <X size={14} strokeWidth={2} />
-                Clear
-              </button>
-            )}
+              {/* Clear filters */}
+              {hasFilters && (
+                <button
+                  onClick={clearFilters}
+                  className="flex items-center gap-1.5 px-4 py-3 rounded-xl border-2 border-[#EDE4D3]
+                    bg-white text-[#9A6C4A] text-sm font-body hover:text-red-500 hover:border-red-200
+                    transition-colors flex-shrink-0"
+                  aria-label="Clear all filters"
+                >
+                  <X size={14} strokeWidth={2} />
+                  Clear
+                </button>
+              )}
+            </div>
           </div>
 
           {/* Result count */}
