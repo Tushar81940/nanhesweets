@@ -64,7 +64,7 @@ export default function About() {
             A Passion for Authentic<br className="hidden sm:block" /> Indian Flavours
           </h1>
           <p className="text-[#C4A882] font-body text-base sm:text-lg leading-relaxed max-w-2xl mx-auto">
-            Nanhe was born from a simple belief: that the finest Indian sweets, dairy and snacks
+            Nanhe was never born from a simple belief: that the finest Indian sweets, dairy and snacks
             deserve to be made with real ingredients, traditional care, and an honest heart.
           </p>
         </div>
