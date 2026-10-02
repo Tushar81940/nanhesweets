@@ -622,7 +622,7 @@ export const products = [
     name:        "Moong Dal Samosa",
     category:    CATEGORIES.SNACKS,
     description: "Crispy samosas stuffed with spiced moong dal — a lighter, equally delicious variation.",
-    image:       "/images/chaina toast.jpeg",
+    image:       "/images/moongdaalsamosa.png",
     price:       240,
     unit:        "1 kg",
     variants:    kgVariants,
