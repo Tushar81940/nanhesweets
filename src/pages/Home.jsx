@@ -74,7 +74,7 @@ export default function Home() {
         {/* Background image */}
         <div className="absolute inset-0 z-0">
           <img
-            src="https://images.unsplash.com/photo-1601050690597-df0568f70950?w=1600&q=85"
+            src="/images/fresh milk.png"
             alt=""
             aria-hidden="true"
             className="w-full h-full object-cover"

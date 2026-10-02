@@ -74,16 +74,44 @@ export default function About() {
       <section className="py-16 sm:py-20 bg-[#FFFBF5]" aria-labelledby="story-heading">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-            {/* Image */}
-            <div className="rounded-2xl overflow-hidden shadow-[0_8px_32px_rgba(58,26,10,0.12)] img-zoom">
-              <img
-                src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=800&q=80"
-                alt="Traditional Indian sweets being prepared"
-                className="w-full h-72 sm:h-96 object-cover"
-              />
+
+            {/* ── Image collage ── */}
+            <div className="relative grid grid-cols-2 gap-3 h-80 sm:h-[420px]">
+              {/* Large left — spans 2 rows */}
+              <div className="rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(58,26,10,0.14)] row-span-2 img-zoom">
+                <img
+                  src="/images/rasmalai.jpeg"
+                  alt="Fresh Rasmalai"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              {/* Top right */}
+              <div className="rounded-2xl overflow-hidden shadow-[0_4px_16px_rgba(58,26,10,0.10)] img-zoom">
+                <img
+                  src="/images/baalu shahi.jpeg"
+                  alt="Gulab Jamun"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              {/* Bottom right */}
+              <div className="rounded-2xl overflow-hidden shadow-[0_4px_16px_rgba(58,26,10,0.10)] img-zoom">
+                <img
+                  src="/images/Paneer.png"
+                  alt="Fresh Paneer"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              {/* "Made Fresh Daily" badge */}
+              <div className="absolute -bottom-4 -right-4 w-20 h-20 rounded-full
+                bg-[#3D1A0A] border-4 border-[#FFFBF5]
+                flex flex-col items-center justify-center shadow-lg z-10 pointer-events-none">
+                <span className="text-[#C9922A] text-[9px] font-bold uppercase tracking-wider leading-tight text-center px-1">
+                  Made<br />Fresh<br />Daily
+                </span>
+              </div>
             </div>
 
-            {/* Text */}
+            {/* ── Text ── */}
             <div className="flex flex-col gap-5">
               <div>
                 <span className="text-[#C9922A] text-xs uppercase tracking-widest font-semibold font-body">
@@ -117,6 +145,7 @@ export default function About() {
                 <ArrowRight size={15} strokeWidth={2.5} />
               </Link>
             </div>
+
           </div>
         </div>
       </section>
