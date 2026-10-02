@@ -700,7 +700,7 @@ export const products = [
     name:        "Meethi Boondi",
     category:    CATEGORIES.SNACKS,
     description: "Sweet sugar-coated boondi — soft, lightly fragrant and perfect as a prasad or snack.",
-    image:       "/images/chaina toast.jpeg",
+    image:       "/images/meethiboondi.png",
     price:       200,
     unit:        "1 kg",
     variants:    kgVariants,
