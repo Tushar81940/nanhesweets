@@ -583,7 +583,7 @@ export const products = [
     name:        "Papdi",
     category:    CATEGORIES.SNACKS,
     description: "Thin, crisp wheat discs — great on their own or with chaat toppings.",
-    image:       "/images/chaina toast.jpeg",
+    image:       "/images/papdi.png",
     price:       200,
     unit:        "1 kg",
     variants:    kgVariants,
