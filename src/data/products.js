@@ -557,7 +557,7 @@ export const products = [
     name:        "Masala Kachori",
     category:    CATEGORIES.SNACKS,
     description: "Flaky fried rounds stuffed with spiced moong dal — rich, flavourful and hearty.",
-    image:       "/images/chaina toast.jpeg",
+    image:       "/images/masalakachori.png",
     price:       220,
     unit:        "1 kg",
     variants:    kgVariants,
