@@ -30,7 +30,7 @@ const offerings = [
   {
     emoji: "🍬",
     title: "Indian Sweets",
-    desc: "From melt-in-the-mouth rasmalai to rich kaju katli — traditional mithai made fresh daily.",
+    desc: "From melt-in-the-mouth rasmalai to rich Desi ghee Sonpapdi — traditional mithai made fresh daily.",
   },
   {
     emoji: "🥛",
@@ -40,7 +40,7 @@ const offerings = [
   {
     emoji: "🥨",
     title: "Savoury Snacks",
-    desc: "Crispy sev, bhujia, namkeen and more — crafted with the same love as our sweets.",
+    desc: "Crispy sev,Methi Matri, namkeen and more — crafted with the same love as our sweets.",
   },
 ];
 
