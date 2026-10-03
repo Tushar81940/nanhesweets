@@ -238,7 +238,7 @@ export default function Home() {
             </span>
           </div>
           <h2 className="font-display font-bold text-white text-2xl sm:text-3xl mb-3">
-            FREE Delivery on Orders Above ₹300
+            FREE Delivery on Orders Above ₹399
           </h2>
           <p className="text-[#C4A882] font-body text-sm sm:text-base mb-7 max-w-md mx-auto">
             Order sweets, dairy and snacks together and enjoy complimentary home delivery.

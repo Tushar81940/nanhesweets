@@ -521,7 +521,7 @@ export const products = [
 
   {
     id:          "sn-001",
-    name:        "Samosa",
+    name:        "Aloo Samosa",
     category:    CATEGORIES.SNACKS,
     description: "Crispy golden pastry filled with spiced potato and peas. Best with green chutney.",
     image:       "/images/samosa.png",

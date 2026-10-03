@@ -18,9 +18,9 @@ export const storeConfig = {
   // REPLACE with your actual WhatsApp number (country code + number, no + or spaces)
   whatsappNumber: "919927095355",
   phone: "+91 99270 95355",
-  email: "hello@nanhe.in",
-  address: "Shop No. 12, Main Market, Your City — 000000",
-  landmark: "Near Clock Tower",
+  email: "nanhedairyandsweet@gmail.com",
+  address: "Moh. Katramaliyan, Kashipur, Uttarakhand",
+  landmark: "Ganga Enterprise",
   googleMapsUrl: "https://maps.google.com/?q=YOUR+SHOP+ADDRESS",
 
   // ── Hours ─────────────────────────────────────────────
@@ -38,7 +38,7 @@ export const storeConfig = {
   // ── Delivery Rules ────────────────────────────────────
   freeDeliveryThreshold: 399,   // ₹399+ → free delivery
   deliveryCharge: 40,           // ₹40 below threshold
-  minimumOrder: 150,            // ₹150 minimum order value
+  minimumOrder: 100,            // ₹150 minimum order value
 
   // ── SEO ───────────────────────────────────────────────
   siteTitle: "Nanhe — Premium Sweets, Dairy & Snacks",
