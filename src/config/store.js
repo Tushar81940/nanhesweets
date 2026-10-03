@@ -25,8 +25,7 @@ export const storeConfig = {
 
   // ── Hours ─────────────────────────────────────────────
   openingHours: [
-    { day: "Monday – Saturday", hours: "8:00 AM – 9:00 PM" },
-    { day: "Sunday",            hours: "9:00 AM – 8:00 PM" },
+    { day: "Everyday", hours: "6:00 AM – 11:00 PM" },
   ],
 
   // ── Social ────────────────────────────────────────────
@@ -37,9 +36,9 @@ export const storeConfig = {
   },
 
   // ── Delivery Rules ────────────────────────────────────
-  freeDeliveryThreshold: 300,   // ₹300+ → free delivery
-  deliveryCharge: 30,           // ₹30 below threshold
-  minimumOrder: 100,            // ₹150 minimum order value
+  freeDeliveryThreshold: 399,   // ₹399+ → free delivery
+  deliveryCharge: 40,           // ₹40 below threshold
+  minimumOrder: 150,            // ₹150 minimum order value
 
   // ── SEO ───────────────────────────────────────────────
   siteTitle: "Nanhe — Premium Sweets, Dairy & Snacks",

@@ -489,7 +489,7 @@ export const products = [
   },
   {
     id:          "da-008",
-    name:        "Sweet Lassi",
+    name:        "Rabdhi Lassi",
     category:    CATEGORIES.DAIRY,
     description: "Chilled blended curd with sugar and cardamom — refreshing, thick and cooling.",
     image:       "/images/Sweet lassi.png",
@@ -693,7 +693,7 @@ export const products = [
   {
     id:          "sn-014",
     name:        "Meethi Boondi",
-    category:    CATEGORIES.SNACKS,
+    category:    CATEGORIES.SWEETS,
     description: "Sweet sugar-coated boondi — soft, lightly fragrant and perfect as a prasad or snack.",
     image:       "/images/meethiboondi.png",
     price:       200,
