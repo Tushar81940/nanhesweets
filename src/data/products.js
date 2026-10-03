@@ -507,7 +507,7 @@ export const products = [
     description: "Plain Chaach — the perfect digestive and summer coolant.",
     image:       "/images/Chach.png",
     price:       30,
-    unit:        "300ml",
+    unit:        "1 Litre",
     variants:    null,
     available:   true,
     featured:    false,
