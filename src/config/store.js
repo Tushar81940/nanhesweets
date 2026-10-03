@@ -39,7 +39,7 @@ export const storeConfig = {
   // ── Delivery Rules ────────────────────────────────────
   freeDeliveryThreshold: 300,   // ₹300+ → free delivery
   deliveryCharge: 30,           // ₹30 below threshold
-  minimumOrder: 150,            // ₹150 minimum order value
+  minimumOrder: 100,            // ₹150 minimum order value
 
   // ── SEO ───────────────────────────────────────────────
   siteTitle: "Nanhe — Premium Sweets, Dairy & Snacks",

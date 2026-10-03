@@ -13,7 +13,7 @@ const trustBadges = [
   { icon: Star,        label: "Premium Quality",    sub: "Only finest ingredients"   },
   { icon: Truck,       label: "Home Delivery",       sub: "Free above ₹300"           },
   { icon: ShieldCheck, label: "Hygiene Certified",   sub: "Made fresh daily"          },
-  { icon: Clock,       label: "Same Day Orders",     sub: "Order before 2 PM"         },
+  { icon: Clock,       label: "Same Day Delivery",   sub: "Delivered within the day"  },
 ];
 
 // ── Testimonials ─────────────────────────────────────────

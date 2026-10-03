@@ -222,7 +222,7 @@ export default function Cart() {
               <p>✓ Minimum order value: <strong>₹{storeConfig.minimumOrder}</strong></p>
               <p>✓ Orders above ₹{storeConfig.freeDeliveryThreshold} → <strong>FREE delivery</strong></p>
               <p>✓ Orders below ₹{storeConfig.freeDeliveryThreshold} → ₹{storeConfig.deliveryCharge} delivery charge</p>
-              <p>✓ Orders placed before 2 PM delivered same day</p>
+              <p>✓ Delivered within the same day</p>
             </div>
           </div>
         </div>
