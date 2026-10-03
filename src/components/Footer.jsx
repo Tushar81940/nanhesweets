@@ -170,7 +170,6 @@ export default function Footer() {
       {/* Bottom bar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-[#9A6C4A] font-body">
         <p>© {year} {storeConfig.brandName}. All rights reserved.</p>
-        <p>Made with ❤️ for quality &amp; taste</p>
       </div>
     </footer>
   );
