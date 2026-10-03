@@ -20,7 +20,7 @@ export const storeConfig = {
   phone: "+91 99270 95355",
   email: "nanhedairyandsweet@gmail.com",
   address: "Moh. Katramaliyan, Kashipur, Uttarakhand",
-  landmark: "Ganga Enterprise",
+  landmark: "Near Shiv Mandir",
   googleMapsUrl: "https://maps.google.com/?q=YOUR+SHOP+ADDRESS",
 
   // ── Hours ─────────────────────────────────────────────
