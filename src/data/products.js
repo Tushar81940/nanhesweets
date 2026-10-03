@@ -351,7 +351,7 @@ export const products = [
     name:        "Jalebi",
     category:    CATEGORIES.SWEETS,
     description: "Crispy spiral fritters soaked in saffron sugar syrup — best served fresh and warm.",
-    image:       "/images/gulab jamun.jpeg",
+    image:       "/images/Jalebi.png",
     price:       200,
     unit:        "1 kg",
     variants:    kgVariants,
