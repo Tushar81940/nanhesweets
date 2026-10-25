@@ -286,7 +286,7 @@ export const products = [
     category:    CATEGORIES.SWEETS,
     description: "Pillowy soft sponge rasgulla in light sugar syrup — light, delicate and refreshing.",
     image:       "/images/safed rasgulla.jpeg",
-    price:       20,
+    price:       25,
     unit:        "per pc",
     variants:    null,
     available:   true,
