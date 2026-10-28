@@ -299,7 +299,7 @@ export const products = [
     category:    CATEGORIES.SWEETS,
     description: "Thickened sweetened milk layered with malai — rich, fragrant and utterly indulgent.",
     image:       "/images/Rabdi.png",
-    price:       380,
+    price:       400,
     unit:        "1 kg",
     variants:    kgVariants,
     available:   true,
